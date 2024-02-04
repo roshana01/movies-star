@@ -7,6 +7,8 @@ RatingStar;
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <App /> */}
-    <RatingStar />
+    <RatingStar maxRating={8}/>
+    <RatingStar maxRating={5}/>
+    <RatingStar maxRating={3}/>
   </React.StrictMode>
 );
