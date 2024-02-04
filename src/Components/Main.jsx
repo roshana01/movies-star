@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export default function Main() {
-  return (
-    <div className='w-[700px] bg-lime-200 justify-center'>ff</div>
-  )
+export default function Main({ children }) {
+  return <div className="flex justify-center mt-7">{children}</div>;
 }

@@ -1,15 +1,14 @@
 import React from "react";
-
-export default function SearchInput({ valInput, setValInput }) {
+export default function SearchInput({ query, setQuery }) {
   return (
     <>
       {" "}
       <input
-        value={valInput}
-        onChange={(e) => setValInput(e.target.value)}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         type="text"
         placeholder="Type here"
-        className="input input-bordered w-full max-w-xs"
+        className="input input-bordered w-full max-w-lg"
       />
     </>
   );
