@@ -1,14 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 const KEY = "187863fe";
+import RatingStar from "./RatingStar";
 
-export default function MovieDetails({ selectedId, closeFunc }) {
+export default function MovieDetails({
+  selectedId,
+  closeFunc,
+  addWatch,
+  wached,
+}) {
+  // ? satat
   const [movieDetal, setMovieDetal] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [onRating, setOnRating] = useState("");
 
-  // {}
-  // console.log(movieDetal.Actors);
+  //?driveState
+  const isWatched = wached.map((moive) => moive.imdbID).includes(selectedId);
+
+  // const watchedUserRating = wached.find((moive) => {
+  //   return moive?.imdbID === selectedId;
+  // })?.onRating;
+  // console.log(watchedUserRating, onRating);
+
   //?ye destrachring darim bara inke to api hameh horofa bozorgan
+
   const {
     Title: title,
     Poster: poster,
@@ -22,6 +37,20 @@ export default function MovieDetails({ selectedId, closeFunc }) {
     imdbRating,
   } = movieDetal;
 
+  const addhandlerWatch = () => {
+    const onAddwatch = {
+      imdbID: selectedId,
+      title,
+      poster,
+      Year,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating: onRating,
+    };
+    addWatch(onAddwatch);
+    closeFunc();
+  };
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
@@ -33,6 +62,15 @@ export default function MovieDetails({ selectedId, closeFunc }) {
       setIsLoading(false);
     })();
   }, [selectedId]);
+
+  //title head (html)
+  useEffect(() => {
+    document.title = `movie ${title}🥤🍿`;
+    //clean ues effict
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
 
   return (
     <>
@@ -66,10 +104,28 @@ export default function MovieDetails({ selectedId, closeFunc }) {
                 </p>
               </div>
             </div>
-            <section className="text-white px-5 text-justify">
-              <div className="star py-4 px-2 bg-[#61617a6d] m-10 rounded-2xl flex justify-center text-xl">
-                <span>⭐⭐⭐⭐⭐⭐⭐⭐</span>
+            <section className="text-white px-9 text-justify">
+              <div className="flex flex-col items-center justify-center star py-4 px-2 bg-[#61617a6d] my-10 w-96  rounded-3xl  text-xl">
+                {!isWatched ? (
+                  <>
+                    <RatingStar maxRating={10} onSarating={setOnRating} />
+
+                    {onRating > 0 && (
+                      <button
+                        className=" w-80 p-2 mt-4 border-none bg-pink-500 rounded-3xl text-[17px]"
+                        onClick={addhandlerWatch}
+                      >
+                        + Add to list
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-pink-300 text-[18px]">
+                    you rate with movie 🤖
+                  </p>
+                )}
               </div>
+
               <p>
                 <em>{plot}</em>
               </p>
