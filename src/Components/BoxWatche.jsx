@@ -10,7 +10,7 @@ export default function BoxWatche({ children }) {
   };
   return (
     <>
-      <div className="box-watche bg-[#31354e] w-[450px] h-[650px] ml-3 rounded-xl relative overflow-hidden">
+      <div className="box-watche bg-[#31354e] w-[450px] h-[650px] ml-3 rounded-xl relative  overflow-auto ">
         <Button setCloseBtn={isTaggleListMovies} closeBtn={closeBtn2} />
         {closeBtn2 && children}
   
