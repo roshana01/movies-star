@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "./Button";
-import ListWached from "./ListWached";
+
 
 export default function BoxWatche({ children }) {
   const [closeBtn2, setCloseBtn2] = useState(true);
