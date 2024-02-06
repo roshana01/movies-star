@@ -7,7 +7,7 @@ export default function MovieDetails({
   selectedId,
   closeFunc,
   addWatch,
-  wached,
+  watched,
 }) {
   // ? satat
   const [movieDetal, setMovieDetal] = useState({});
@@ -15,7 +15,7 @@ export default function MovieDetails({
   const [onRating, setOnRating] = useState("");
 
   //?driveState
-  const isWatched = wached.map((moive) => moive.imdbID).includes(selectedId);
+  const isWatched = watched.map((moive) => moive.imdbID).includes(selectedId);
 
   // const watchedUserRating = wached.find((moive) => {
   //   return moive?.imdbID === selectedId;
@@ -44,7 +44,7 @@ export default function MovieDetails({
       poster,
       Year,
       imdbRating: Number(imdbRating),
-      runtime: Number(runtime.split(" ").at(0)),
+      runtime: Number(runtime.split("").at(0)),
       userRating: onRating,
     };
     addWatch(onAddwatch);

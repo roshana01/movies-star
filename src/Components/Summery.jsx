@@ -1,26 +1,27 @@
 import React from "react";
 
-export default function ({wached,average}) {
-  const avgImdbRating = average(wached.map((movie) => movie.imdbRating));
-  const avgUserRating = average(wached.map((movie) => movie.userRating));
-  const avgRuntime = average(wached.map((movie) => movie.runtime));
-
-
+export default function ({ watched, average }) {
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  // const isNaN = avgRuntime === NaN ? 0 : avgRuntime //!bug
+  // console.log(isNaN);
   return (
     <div className=" shadow-lg border-b border-b-slate-700 h-[93px] bg-[#424254d3] rounded-lg">
       <h1 className="text-white pt-4 pl-12 font-bold">MOVIES YOU WATCHED</h1>
       <div className="flex justify-evenly items-center text-white pt-3 font-bold">
         <p>
-          <span>🚹 {wached.length}</span> movies
+          <span>🚹 {watched.length}</span> movies
         </p>
         <p>
-          <span>⭐</span> {Math.floor(avgImdbRating)}
+          <span>⭐</span> {avgImdbRating.toFixed(2)}
         </p>
         <p>
-          <span>🌟</span> {avgUserRating}
+          <span>🌟</span> {avgUserRating.toFixed(2)}
         </p>
         <p>
-          <span>⏳ {avgRuntime}</span> min
+          <span>⏳ {avgRuntime.toFixed(2)}</span> min
+          {/* /***bug***** */}
         </p>
       </div>
     </div>

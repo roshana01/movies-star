@@ -1,12 +1,16 @@
 import React from "react";
 import ItemWached from "./ItemWached";
 
-export default function ListWached({ wached }) {
+export default function ListWached({ watched, removeList }) {
   return (
     <div>
       <ul>
-        {wached?.map((watch) => (
-          <ItemWached wached={watch} key={ watch.imdbID} />
+        {watched?.map((watch) => (
+          <ItemWached
+            watched={watch}
+            key={watch.imdbID}
+            removeList={removeList}
+          />
         ))}
       </ul>
     </div>
