@@ -7,7 +7,7 @@ export default function ListMovies({ movies ,onSelectMovies}) {
     <>
       <ul >
         {movies?.map((movie) => (
-          <ItemMovies movies={movie} key={movie.imdbID} onSelectMovies={onSelectMovies}/>
+          <ItemMovies movies={movie} key={"id" + movie.imdbID} onSelectMovies={onSelectMovies}/>
         ))}
       </ul>
     </>

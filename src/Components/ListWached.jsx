@@ -5,8 +5,8 @@ export default function ListWached({ wached }) {
   return (
     <div>
       <ul>
-        {wached.map((watch) => (
-          <ItemWached wached={watch} key={watch.imdbID} />
+        {wached?.map((watch) => (
+          <ItemWached wached={watch} key={ watch.imdbID} />
         ))}
       </ul>
     </div>
