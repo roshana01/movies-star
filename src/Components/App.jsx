@@ -17,21 +17,29 @@ import MovieDetails from "./MovieDetails";
 const KEY = "187863fe";
 //
 export default function App() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('dela');
   const [movies, setMovies] = useState([]);
   const [wached, setWached] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
+  const average = (arr) =>
+  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+
+
   const handlerMoveisDatilas = (id) => {
-    // console.log(id);
     setSelectedId((selectedId) => (selectedId === id ? null : id));
-    console.log(selectedId === id) //123FFe34 === 123FFe34 = null(basteh mesheh) /123FFe34 = rf3327 =>false(zaher mesheh)
+    // console.log(selectedId === id); //123FFe34 === 123FFe34 = null(basteh mesheh) /123FFe34 = rf3327 =>false(zaher mesheh)
   };
   const closeMoviesDetails = () => {
     setSelectedId(null);
-    
+  };
+
+  const AddWatchedMoveis = (move) => {
+ 
+    setWached((wached) => [move, ...wached]);
   };
 
   useEffect(() => {
@@ -42,18 +50,19 @@ export default function App() {
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
         );
-        if (!res.ok)
+        if (!res.ok )
           throw new Error("Something went wrong with fetching movies");
         const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not found");
-        // console.log(data.Search);
+        if (data.Response === "false") throw new Error("Movie not found......");
+        ;
         setMovies(data.Search);
       } catch (error) {
-        // console.log(error.message);
+        console.log(error.message);
         setError(error.message);
       } finally {
         setIsLoading(false);
       }
+      closeMoviesDetails()
     })();
   }, [query]);
 
@@ -82,11 +91,12 @@ export default function App() {
               wached={wached}
               selectedId={selectedId}
               closeFunc={closeMoviesDetails}
+              addWatch={AddWatchedMoveis}
             />
           ) : (
             <>
-              <Summery wached={wached} />
-              <ListWached wached={wached} />
+              <Summery wached={wached} average={average}/>
+              <ListWached wached={wached}  />
             </>
           )}
         </BoxWatche>
