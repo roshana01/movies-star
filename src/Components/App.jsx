@@ -4,7 +4,6 @@ import Logo from "./Logo";
 import SearchInput from "./SearchInput";
 import NumberResult from "./NumberResult";
 import Main from "./Main";
-import { tempMovieData, tempWatchedData } from "../assets/data";
 import BoxMovies from "./BoxMovies";
 import BoxWatche from "./BoxWatche";
 import ListMovies from "./ListMovies";
@@ -17,12 +16,21 @@ import MovieDetails from "./MovieDetails";
 const KEY = "187863fe";
 //
 export default function App() {
-  const [query, setQuery] = useState("charly");
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  // const [watched, setWatched] = useState([]);
+
+  const [watched, setWatched] = useState(() => {
+    //*used useCallback hook for localStorage (getItem)
+
+    const localStorVal = localStorage.getItem("watche");
+    // console.log(hi); //ye callback byd khales bashe bedoneh paramet chera? undifinde medeh chera? chon callbak to useStateh va hech vorodi be parametr nadari bedi dar nahayt undifinde
+    
+    return JSON.parse(localStorVal);
+  }); //uesd useCallback at state
 
   const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -35,11 +43,22 @@ export default function App() {
     setSelectedId(null);
   };
 
+  // version 2 hooks and localstoreg
   const AddWatchedMoveis = (move) => {
-    setWatched((wached) => [move, ...wached]);
+    setWatched((watched) => [move, ...watched]);
+
+    //add localStorage in add list watche movies (event)
+    //* in raveshi hast k to event anjam mesheh (localstorage)
+    // localStorage.setItem("watche", JSON.stringify([move, ...watched]));
   };
 
- 
+  //*add localStorage in add list watche movies (useEffect)
+
+  useEffect(() => {
+    //* setItem
+    localStorage.setItem("watche", JSON.stringify(watched));
+  }, [watched]);
+
   const deletedListWatchedMovies = (id) => {
     setWatched((watched) => watched.filter((moiv) => moiv.imdbID !== id));
   };
@@ -58,7 +77,6 @@ export default function App() {
         if (data.Response === "false") throw new Error("Movie not found......");
         setMovies(data.Search);
       } catch (error) {
-       
         setError(error.message);
       } finally {
         setIsLoading(false);
@@ -97,7 +115,10 @@ export default function App() {
           ) : (
             <>
               <Summery watched={watched} average={average} />
-              <ListWached watched={watched} removeList={deletedListWatchedMovies}/>
+              <ListWached
+                watched={watched}
+                removeList={deletedListWatchedMovies}
+              />
             </>
           )}
         </BoxWatche>
