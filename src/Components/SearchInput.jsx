@@ -1,26 +1,33 @@
 import React, { useEffect, useRef } from "react";
+import useKey from "../hooks/useKey";
+
 export default function SearchInput({ query, setQuery }) {
   //*used useRef in input
-
   const inputEl = useRef(null); //*hook useRef()
 
-  useEffect(() => {
-    // console.log(inputEl.current);
-    const callback = (e) => {
-      if (document.activeElement === inputEl.current) return;
+ //?used custom hook
+  useKey("Enter", () => {
+    if (document.activeElement === inputEl.current) return;
+    inputEl.current.focus();
+    setQuery("");
+  });
+ 
 
-      if (e.code === "Enter") {
-        // console.log(e);
-        inputEl.current.focus();
-        setQuery("");
-      }
-    };
+   //👆in codaye bala hamin paeeine vali tafavoti k dareh ine k bala az custom hook estefadeh shodeh v paeiin hamon ravaesh adi hastesh👇
+   
+  // useEffect(() => {
+  //   const callback = (e) => {
+  //
+  //     if (e.code === "Enter") {
+  //
+  //     }
+  //   };
 
-    document.addEventListener("keydown", callback);
-    return () => {
-      document.removeEventListener("keydown", callback);
-    };
-  }, [setQuery]);
+  //   document.addEventListener("keydown", callback);
+  //   return () => {
+  //     document.removeEventListener("keydown", callback);
+  //   };
+  // }, [setQuery]);
 
   return (
     <>

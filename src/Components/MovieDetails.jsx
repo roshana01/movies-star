@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Loader from "./Loader";
-const KEY = "187863fe";
 import RatingStar from "./RatingStar";
+import useKey from "../hooks/useKey";
 
+
+const KEY = "187863fe";
 export default function MovieDetails({
   selectedId,
   closeFunc,
@@ -14,6 +16,9 @@ export default function MovieDetails({
   const [isLoading, setIsLoading] = useState(false);
   const [onRating, setOnRating] = useState("");
 
+  //*used hook for escape for list add movies
+  useKey("Escape", closeFunc);
+
   //?driveState
   const isWatched = watched.map((moive) => moive.imdbID).includes(selectedId);
 
@@ -21,7 +26,7 @@ export default function MovieDetails({
   const countRef = useRef(0);
   //update useRef be vasteh useEffect anjam mesheh
   useEffect(() => {
-    if (onRating) return (countRef.current++);
+    if (onRating) return countRef.current++;
   }, [setOnRating]);
 
   //?ye destrachring darim bara inke to api hameh horofa bozorgan
@@ -48,7 +53,7 @@ export default function MovieDetails({
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split("").at(0)),
       userRating: onRating,
-      counRefRating : countRef.current,
+      counRefRating: countRef.current,
     };
     addWatch(onAddwatch);
     closeFunc();
