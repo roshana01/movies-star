@@ -12,25 +12,18 @@ import ListWached from "./ListWached";
 import Loader from "./Loader";
 import Message from "./Message";
 import MovieDetails from "./MovieDetails";
+import useMovies from "../hooks/useMovies";
+import useLocalStorage from "../hooks/useLocalStorage";
 
-const KEY = "187863fe";
-//
+
 export default function App() {
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  // const [watched, setWatched] = useState([]);
 
-  const [watched, setWatched] = useState(() => {
-    //*used useCallback hook for localStorage (getItem)
+  //*uesed coustom hook⚛️
 
-    const localStorVal = localStorage.getItem("watche");
-    // console.log(hi); //ye callback byd khales bashe bedoneh paramet chera? undifinde medeh chera? chon callbak to useStateh va hech vorodi be parametr nadari bedi dar nahayt undifinde
-    
-    return JSON.parse(localStorVal);
-  }); //uesd useCallback at state
+  const { movies, isLoading, error } = useMovies(query);
+  const {watched, setWatched} = useLocalStorage([] ,"watche");
 
   const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -39,6 +32,7 @@ export default function App() {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
     // console.log(selectedId === id); //123FFe34 === 123FFe34 = null(basteh mesheh) /123FFe34 = rf3327 =>false(zaher mesheh)
   };
+
   const closeMoviesDetails = () => {
     setSelectedId(null);
   };
@@ -54,36 +48,9 @@ export default function App() {
 
   //*add localStorage in add list watche movies (useEffect)
 
-  useEffect(() => {
-    //* setItem
-    localStorage.setItem("watche", JSON.stringify(watched));
-  }, [watched]);
-
   const deletedListWatchedMovies = (id) => {
     setWatched((watched) => watched.filter((moiv) => moiv.imdbID !== id));
   };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        setIsLoading(true);
-        setError("");
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-        );
-        if (!res.ok)
-          throw new Error("Something went wrong with fetching movies");
-        const data = await res.json();
-        if (data.Response === "false") throw new Error("Movie not found......");
-        setMovies(data.Search);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-      closeMoviesDetails();
-    })();
-  }, [query]);
 
   return (
     <>
