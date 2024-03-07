@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MoviesContext } from "./App";
 
-export default function NumberResult({movies}) {
+export default function NumberResult() {
+  const {movies} = useContext(MoviesContext)
   return (
     <>
       <p>

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MoviesContext } from "./App";
 
-export default function ({ watched, average }) {
+export default function () {
+  const { watched, average } = useContext(MoviesContext);
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));

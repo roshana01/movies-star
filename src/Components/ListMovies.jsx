@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import ItemMovies from "./ItemMovies";
+import { MoviesContext } from "./App";
 
-export default function ListMovies({ movies ,onSelectMovies}) {
+export default function ListMovies() {
+ const { movies ,onSelectMovies} = useContext(MoviesContext)
 
   return (
     <>

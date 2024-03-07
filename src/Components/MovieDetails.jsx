@@ -1,16 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Loader from "./Loader";
 import RatingStar from "./RatingStar";
 import useKey from "../hooks/useKey";
-
+import { MoviesContext } from "./App";
 
 const KEY = "187863fe";
-export default function MovieDetails({
-  selectedId,
-  closeFunc,
-  addWatch,
-  watched,
-}) {
+export default function MovieDetails() {
+  const { selectedId, closeFunc, addWatch, watched } = useContext(MoviesContext);
+  
   // ? satat
   const [movieDetal, setMovieDetal] = useState({});
   const [isLoading, setIsLoading] = useState(false);

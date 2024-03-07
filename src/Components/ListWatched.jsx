@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import ItemWached from "./ItemWached";
+import { MoviesContext } from "./App";
 
-export default function ListWached({ watched, removeList }) {
+export default function ListWatched() {
+   const { watched, removeList } = useContext(MoviesContext);
+
   return (
     <div>
       <ul>

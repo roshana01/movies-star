@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import useKey from "../hooks/useKey";
+import { MoviesContext } from "./App";
 
-export default function SearchInput({ query, setQuery }) {
+export default function SearchInput() {
+  const { query, setQuery } = useContext(MoviesContext)
   //*used useRef in input
   const inputEl = useRef(null); //*hook useRef()
 
